@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: VeryStr0ngP@ssw0rd
+    ports:
+      - "3306:3306"
+    volumes:
+      - c2e86a66c1bc245634bb964c16b85ce68487df97f6d5604b2e29a815e4340253:/var/lib/mysql
+
+  go-backend:
+    build: ./go-backend
+    container_name: go-backend
+    volumes:
+      - ./secrets/firebase-creds.json:/app/secrets/firebase-creds.json:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - PORT=3000
+      - DB_URL=root:VeryStr0ngP@ssw0rd@tcp(db:3306)/ExploRO?parseTime=True
+    command: >
+      bash -c "
+      until echo > /dev/tcp/db/3306;
+      do
+        echo 'Waiting for MySQL...';
+        sleep 1;
+      done;
+      echo 'MySQL is up - starting Go app';
+      ./main
+      "
+
+  python-ml:
+    build: ./python_ml
+    container_name: python-ml
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  c2e86a66c1bc245634bb964c16b85ce68487df97f6d5604b2e29a815e4340253:
+    external: true
