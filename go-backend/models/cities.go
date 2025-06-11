@@ -1,8 +1,8 @@
 package models
 
 type City struct {
-	Id          uint `gorm:"primaryKey"`
-	Name        string
+	Id          uint   `gorm:"primaryKey"`
+	Name        string `gorm:"type:varchar(255);unique"`
 	Description string
 	ImageURL    string
 	IsDefault   bool

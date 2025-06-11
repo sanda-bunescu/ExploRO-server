@@ -31,11 +31,10 @@ func (r *TripPlanRepository) GetTripsByUserId(firebaseUID string) ([]*responses.
 		Table("trip_plans").
 		Select("trip_plans.id AS id, trip_plans.name AS trip_name, trip_plans.start_date AS start_date, trip_plans.end_date AS end_date, groups.name AS group_name, cities.name AS city_name, cities.id as city_id").
 		Joins("JOIN `groups` ON `groups`.id = trip_plans.group_id").
+		Joins("JOIN user_groups ON user_groups.group_id = groups.id AND user_groups.user_id = ?", firebaseUID).
 		Joins("JOIN cities ON cities.id = trip_plans.city_id").
-		Joins("LEFT JOIN user_cities ON cities.id = user_cities.city_id AND user_cities.user_id = ?", firebaseUID).
 		Where("trip_plans.deleted_at IS NULL").
 		Scan(&tripPlans).Error
-
 	if err != nil {
 		return nil, err
 	}
@@ -50,9 +49,9 @@ func (r *TripPlanRepository) GetTripsByCityAndUser(cityId uint, firebaseUID stri
 		Table("trip_plans").
 		Select("trip_plans.id AS id, trip_plans.name AS trip_name, trip_plans.start_date AS start_date, trip_plans.end_date AS end_date, groups.name AS group_name, cities.name AS city_name, cities.id as city_id").
 		Joins("JOIN `groups` ON `groups`.id = trip_plans.group_id").
+		Joins("JOIN user_groups ON user_groups.group_id = groups.id AND user_groups.user_id = ?", firebaseUID).
 		Joins("JOIN cities ON cities.id = trip_plans.city_id").
-		Joins("JOIN user_cities ON cities.id = user_cities.city_id").
-		Where("user_cities.user_id = ? AND cities.id = ?  AND trip_plans.deleted_at IS NULL AND user_cities.deleted_at IS NULL", firebaseUID, cityId).
+		Where("trip_plans.deleted_at IS NULL AND cities.id = ?", cityId).
 		Scan(&tripPlans).Error
 
 	if err != nil {

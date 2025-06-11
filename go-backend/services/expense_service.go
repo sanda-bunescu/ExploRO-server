@@ -57,7 +57,7 @@ func (es *ExpenseService) GetAllExpensesByGroupId(ctx context.Context, groupId u
 			debtorsResponse = append(debtorsResponse, responses.DebtResponse{
 				Id:          debtor.Id,
 				UserId:      debtor.UserId,
-				UserName:    debtorIdentity.Email,
+				UserName:    debtorIdentity.Name,
 				AmountToPay: debtor.AmountToPay,
 			})
 		}

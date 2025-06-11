@@ -10,7 +10,7 @@ import (
 var FirebaseApp *firebase.App
 
 func FirebaseInitialization() {
-	opt := option.WithCredentialsFile("/app/secrets/firebase-creds.json")
+	opt := option.WithCredentialsFile("/app/secrets/firebase-creds.json") //  /Users/sanda/Documents/Licenta/Final/Docker/secrets/firebase-creds.json
 	app, err := firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
 		log.Fatalf("Failed to connect to initialize firebase %v", err)

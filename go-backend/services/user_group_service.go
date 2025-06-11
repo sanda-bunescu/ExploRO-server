@@ -62,6 +62,7 @@ func (ugs *UserGroupService) AddUserGroup(ginCtx *gin.Context, userGroup *reques
 	userEmailToAdd := userGroup.UserEmail
 
 	userId, err := ugs.UserRepo.GetUserIdByEmail(userEmailToAdd)
+
 	if err != nil {
 		return fmt.Errorf("%w", err)
 	}

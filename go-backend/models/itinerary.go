@@ -2,6 +2,6 @@ package models
 
 type Itinerary struct {
 	BaseEntity
-	DayNr      uint
-	TripPlanId uint
+	DayNr      uint `gorm:"not null"`
+	TripPlanId uint `gorm:"not null"`
 }

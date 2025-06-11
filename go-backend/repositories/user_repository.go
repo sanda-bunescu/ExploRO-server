@@ -34,7 +34,7 @@ var _ UserRepositoryInterface = (*UserRepository)(nil)
 
 func (ur *UserRepository) GetUserByEmail(email string) (*models.Users, error) {
 	var user models.Users
-	userResult := ur.DB.Where("email = ?", email).First(&user)
+	userResult := ur.DB.Where("email = ? AND deleted_at IS NULL", email).First(&user)
 	if userResult.Error != nil {
 		if errors.Is(userResult.Error, gorm.ErrRecordNotFound) {
 			return nil, nil
@@ -98,7 +98,7 @@ func (ur *UserRepository) IsUserDeleted(userID string) (bool, error) {
 func (ur *UserRepository) GetUserIdByEmail(email string) (string, error) {
 	var user models.Users
 
-	result := ur.DB.Where("email = ?", email).Find(&user)
+	result := ur.DB.Where("email = ? AND deleted_at IS NULL", email).Find(&user)
 	if result.Error != nil {
 		return "", fmt.Errorf("UserRepository.GetUserIdsByEmail: Query execution failed, Error: %w", result.Error)
 	}

@@ -66,7 +66,7 @@ func (us *UserService) RegisterUser(ctx context.Context, ginCtx *gin.Context) (*
 	}
 
 	if user != nil && user.DeletedAt == nil {
-		return nil, fmt.Errorf("user already exists. Please log in instead")
+		return nil, fmt.Errorf("User already exists. Please log in instead")
 	}
 
 	// Create new user
@@ -128,7 +128,7 @@ func (us *UserService) LoginUser(ginCtx *gin.Context) (*models.Users, error) {
 	}
 
 	if user == nil {
-		return nil, fmt.Errorf("user does not exist. Please register first")
+		return nil, fmt.Errorf("User not found. Please register before logging in")
 	}
 
 	return user, nil
