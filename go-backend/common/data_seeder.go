@@ -909,16 +909,6 @@ func seedTouristicAttractions(db *gorm.DB) {
 					CityId:      city.Id,
 				},
 				models.TouristicAttraction{
-					Name:        "Barsana Monastery",
-					Description: "A stunning wooden monastery, known for its high towers and religious significance.",
-					Category:    "Religious",
-					ImageUrl:    baseURL + "Maramures/barsana_monastery.jpg",
-					OpenHours:   "09:00 - 18:00",
-					Fee:         5.0,
-					Link:        "https://barsana.ro",
-					CityId:      city.Id,
-				},
-				models.TouristicAttraction{
 					Name:        "The Wooden Churches of Maramureș",
 					Description: "A UNESCO World Heritage site featuring unique wooden churches spread across the region.",
 					Category:    "Religious",

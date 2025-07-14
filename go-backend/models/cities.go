@@ -2,7 +2,7 @@ package models
 
 type City struct {
 	Id          uint   `gorm:"primaryKey"`
-	Name        string `gorm:"type:varchar(255);unique"`
+	Name        string `gorm:"type:varchar(255);not null;unique"`
 	Description string
 	ImageURL    string
 	IsDefault   bool
